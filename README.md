@@ -226,6 +226,32 @@ Run with debug logging:
 DEBUG=* OBSIDIAN_API_BASE_URL="http://localhost:27123" obsidian-mcp-server
 ```
 
+## 📚 Documentation
+
+### 📖 Complete Documentation
+See the **[docs/](docs/)** folder for comprehensive guides, or check the [Documentation Index](docs/README.md) for organized access to all guides.
+
+### Setup & Configuration
+- **[LM Studio Setup Guide](docs/LM_STUDIO_SETUP.md)** - Complete LM Studio configuration and deployment
+- **[LM Studio Quick Start](docs/LM_STUDIO_QUICKSTART.md)** - Quick reference for LM Studio integration
+- **[Environment File Usage](docs/ENV_FILE_USAGE.md)** - Using .env files with LM Studio and other clients
+
+### Docker & Deployment
+- **[Docker Deployment Guide](docs/DOCKER_DEPLOYMENT.md)** - Complete Docker containerization guide
+- **[Docker Summary](docs/DOCKER_SUMMARY.md)** - Docker toolkit integration overview
+
+### Publishing & Distribution
+- **[Registry Publishing Guide](docs/REGISTRY_PUBLISHING.md)** - Complete guide to publish to Docker MCP Registry
+- **[Publishing Summary](docs/PUBLISHING_SUMMARY.md)** - Quick publishing checklist and steps
+
+### Quick Links
+| Topic | Guide | Description |
+|-------|-------|-------------|
+| 🚀 **Getting Started** | [LM Studio Quick Start](docs/LM_STUDIO_QUICKSTART.md) | Fastest way to get running |
+| 🐳 **Docker** | [Docker Summary](docs/DOCKER_SUMMARY.md) | Containerization overview |
+| ⚙️ **Configuration** | [Environment Files](docs/ENV_FILE_USAGE.md) | Managing environment variables |
+| 🏪 **Publishing** | [Registry Publishing](docs/REGISTRY_PUBLISHING.md) | Share with the community |
+
 ## Contributing
 
 1. Fork the repository

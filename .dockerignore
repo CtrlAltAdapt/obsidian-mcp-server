@@ -24,10 +24,6 @@ build/
 
 # Documentation (not needed in container)
 docs/
-DOCKER_DEPLOYMENT.md
-LM_STUDIO_SETUP.md
-LM_STUDIO_QUICKSTART.md
-ENV_FILE_USAGE.md
 README.md
 
 # Keep TypeScript config for building
