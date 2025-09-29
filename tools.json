@@ -1,0 +1,114 @@
+[
+  {
+    "name": "obsidian-get-note",
+    "description": "Retrieve note content by filename from Obsidian vault",
+    "arguments": [
+      {
+        "name": "filename",
+        "type": "string",
+        "desc": "The filename of the note to retrieve (e.g., 'my-note.md')"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-create-note",
+    "description": "Create a new note in Obsidian vault with optional frontmatter",
+    "arguments": [
+      {
+        "name": "filename",
+        "type": "string",
+        "desc": "The filename for the new note (e.g., 'new-note.md')"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "desc": "The content of the note"
+      },
+      {
+        "name": "frontmatter",
+        "type": "object",
+        "desc": "Optional frontmatter metadata as key-value pairs"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-update-note",
+    "description": "Update an existing note with new content and optional frontmatter",
+    "arguments": [
+      {
+        "name": "filename",
+        "type": "string",
+        "desc": "The filename of the note to update"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "desc": "The new content for the note"
+      },
+      {
+        "name": "frontmatter",
+        "type": "object",
+        "desc": "Optional frontmatter metadata as key-value pairs"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-delete-note",
+    "description": "Delete a note from the Obsidian vault",
+    "arguments": [
+      {
+        "name": "filename",
+        "type": "string",
+        "desc": "The filename of the note to delete"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-search-notes",
+    "description": "Search for notes containing specific text in Obsidian vault",
+    "arguments": [
+      {
+        "name": "query",
+        "type": "string",
+        "desc": "The search query text to find in notes"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-list-files",
+    "description": "List all files and folders in the Obsidian vault",
+    "arguments": [
+      {
+        "name": "path",
+        "type": "string",
+        "desc": "Optional path to list files from (defaults to root)"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-get-vault-info",
+    "description": "Get vault information and statistics from Obsidian",
+    "arguments": []
+  },
+  {
+    "name": "obsidian-create-folder",
+    "description": "Create a new folder in the Obsidian vault",
+    "arguments": [
+      {
+        "name": "path",
+        "type": "string",
+        "desc": "The path of the folder to create"
+      }
+    ]
+  },
+  {
+    "name": "obsidian-get-tags",
+    "description": "Get all tags used in the Obsidian vault",
+    "arguments": []
+  },
+  {
+    "name": "obsidian-ping",
+    "description": "Check connectivity with the Obsidian Local REST API server",
+    "arguments": []
+  }
+]

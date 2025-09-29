@@ -1,0 +1,125 @@
+# Example MCP Toolkit Integration
+# This shows how to include the Obsidian MCP Server in a larger toolkit
+
+version: '3.8'
+
+services:
+  # Obsidian MCP Server
+  obsidian-mcp:
+    build: 
+      context: ./obsidian-mcp-server
+      dockerfile: Dockerfile
+    container_name: mcp-obsidian
+    restart: unless-stopped
+    environment:
+      - OBSIDIAN_API_BASE_URL=http://host.docker.internal:27123
+      - OBSIDIAN_API_KEY=${OBSIDIAN_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - mcp-network
+    labels:
+      - "mcp.service=obsidian"
+      - "mcp.type=knowledge-base"
+
+  # Example: File System MCP Server
+  filesystem-mcp:
+    image: your-registry/filesystem-mcp-server:latest
+    container_name: mcp-filesystem
+    restart: unless-stopped
+    volumes:
+      - ${HOME}/Documents:/mnt/documents:ro
+      - ${HOME}/Projects:/mnt/projects:rw
+    networks:
+      - mcp-network
+    labels:
+      - "mcp.service=filesystem"
+      - "mcp.type=file-operations"
+
+  # Example: Web Search MCP Server
+  websearch-mcp:
+    image: your-registry/websearch-mcp-server:latest
+    container_name: mcp-websearch
+    restart: unless-stopped
+    environment:
+      - SEARCH_API_KEY=${SEARCH_API_KEY}
+      - SEARCH_ENGINE=${SEARCH_ENGINE:-google}
+    networks:
+      - mcp-network
+    labels:
+      - "mcp.service=websearch"
+      - "mcp.type=information-retrieval"
+
+  # Example: Database MCP Server
+  database-mcp:
+    image: your-registry/database-mcp-server:latest
+    container_name: mcp-database
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - DB_TYPE=${DB_TYPE:-postgresql}
+    networks:
+      - mcp-network
+    depends_on:
+      - postgres
+    labels:
+      - "mcp.service=database"
+      - "mcp.type=data-storage"
+
+  # Supporting services
+  postgres:
+    image: postgres:15-alpine
+    container_name: mcp-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=mcp_toolkit
+      - POSTGRES_USER=${POSTGRES_USER:-mcp}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mcp-network
+
+  # MCP Gateway/Router (if you build one)
+  mcp-gateway:
+    image: your-registry/mcp-gateway:latest
+    container_name: mcp-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - MCP_SERVERS=obsidian-mcp:3000,filesystem-mcp:3001,websearch-mcp:3002,database-mcp:3003
+    depends_on:
+      - obsidian-mcp
+      - filesystem-mcp
+      - websearch-mcp
+      - database-mcp
+    networks:
+      - mcp-network
+    labels:
+      - "mcp.service=gateway"
+      - "mcp.type=orchestration"
+
+  # Monitoring and Management
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: mcp-portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - mcp-network
+    profiles:
+      - management
+
+volumes:
+  postgres_data:
+  portainer_data:
+
+networks:
+  mcp-network:
+    name: mcp-toolkit-network
+    driver: bridge

@@ -1,0 +1,65 @@
+{
+  "name": "obsidian-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server to interact with Obsidian REST API",
+  "type": "module",
+  "main": "build/index.js",
+  "bin": {
+    "obsidian-mcp-server": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "dev": "npx tsx src/index.ts",
+    "start": "node build/index.js",
+    "test": "node test-connection.mjs",
+    "setup-lm-studio": "./setup-lm-studio.sh",
+    "global-install": "npm run build && npm link",
+    "docker:setup": "./docker-setup.sh",
+    "docker:build": "docker build -t obsidian-mcp-server:latest .",
+    "docker:up": "docker-compose --env-file .env.docker up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f obsidian-mcp-server",
+    "docker:restart": "docker-compose restart obsidian-mcp-server",
+    "docker:test": "docker-compose --profile testing --env-file .env.docker up -d",
+    "publish:registry": "./publish-to-registry.sh",
+    "publish:prepare": "npm run build && npm run publish:registry"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "obsidian",
+    "knowledge-management",
+    "notes",
+    "api",
+    "rest-api",
+    "vault",
+    "automation"
+  ],
+  "author": {
+    "name": "Umar S",
+    "url": "https://github.com/CtrlAltAdapt"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CtrlAltAdapt/obsidian-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CtrlAltAdapt/obsidian-mcp-server/issues"
+  },
+  "homepage": "https://github.com/CtrlAltAdapt/obsidian-mcp-server#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.2",
+    "dotenv": "^17.2.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  },
+  "files": [
+    "build"
+  ]
+}

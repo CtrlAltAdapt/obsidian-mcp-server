@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  obsidian-mcp-server:
+    build: .
+    container_name: obsidian-mcp-server
+    restart: unless-stopped
+    environment:
+      # Obsidian Local REST API configuration
+      - OBSIDIAN_API_BASE_URL=${OBSIDIAN_API_BASE_URL:-http://host.docker.internal:27123}
+      - OBSIDIAN_API_KEY=${OBSIDIAN_API_KEY:-}
+      # Optional debug logging
+      - DEBUG=${DEBUG:-}
+    # For accessing host services (like Obsidian on host machine)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('MCP Server is ready')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Labels for easier management
+    labels:
+      - "com.docker.compose.project=mcp-toolkit"
+      - "service.name=obsidian-mcp-server"
+      - "service.description=MCP Server for Obsidian integration"
+
+  # Optional: Include a simple web interface for testing
+  mcp-test-interface:
+    image: node:18-alpine
+    container_name: mcp-test-interface
+    depends_on:
+      - obsidian-mcp-server
+    volumes:
+      - ./test:/app
+    working_dir: /app
+    command: |
+      sh -c "
+        if [ ! -f package.json ]; then
+          npm init -y
+          npm install express cors
+        fi
+        node -e '
+        const express = require(\"express\");
+        const app = express();
+        app.use(express.json());
+        app.use(require(\"cors\")());
+        app.get(\"/health\", (req, res) => res.json({status: \"ok\", service: \"mcp-test-interface\"}));
+        app.listen(3001, () => console.log(\"MCP Test Interface running on port 3001\"));
+        '
+      "
+    ports:
+      - "3001:3001"
+    profiles:
+      - testing
+
+networks:
+  default:
+    name: mcp-toolkit-network

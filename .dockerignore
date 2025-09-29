@@ -1,0 +1,56 @@
+# Docker ignore file for Obsidian MCP Server
+node_modules
+npm-debug.log
+.git
+.gitignore
+
+# Environment files - NEVER include secrets in image
+.env
+.env.*
+!.env.example
+!.env.docker.example
+.env.local
+.env.*.local
+
+.nyc_output
+coverage
+.DS_Store
+*.log
+.vscode
+.idea
+
+# Build artifacts (we'll build inside Docker)
+build/
+
+# Documentation (not needed in container)
+docs/
+DOCKER_DEPLOYMENT.md
+LM_STUDIO_SETUP.md
+LM_STUDIO_QUICKSTART.md
+ENV_FILE_USAGE.md
+README.md
+
+# Keep TypeScript config for building
+# tsconfig.json - NEEDED FOR BUILD
+
+# Test files
+test/
+*.test.*
+*.spec.*
+debug-*.mjs
+
+# Development files
+.editorconfig
+.eslintrc*
+.prettierrc*
+jest.config.*
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
